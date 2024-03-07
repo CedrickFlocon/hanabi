@@ -1,6 +1,6 @@
 package com.cedrickflocon.hanabi.game
 
-import java.util.LinkedList
+import java.util.*
 import kotlin.random.Random
 
 class Deck(seed: Int) {
@@ -14,11 +14,11 @@ class Deck(seed: Int) {
     init {
         require(seed in 0..100)
 
-        cards = LinkedList(Color.entries.flatMap { color ->
-            DISTRIBUTION.flatMap { (value, repeat) ->
-                (1..repeat).map { Card(value, color) }
-            }
-        }.shuffled(Random(seed)))
+        cards = LinkedList(Color.entries
+            .flatMap { color -> DISTRIBUTION.flatMap { (value, repeat) -> (1..repeat).map { value to color } } }
+            .shuffled(Random(seed))
+            .mapIndexed { index, card -> Card(card.first, card.second, index) }
+        )
     }
 
     val cardNumber: Int
