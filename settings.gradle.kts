@@ -5,3 +5,5 @@ dependencyResolutionManagement {
         create("libs")
     }
 }
+
+include("game")
