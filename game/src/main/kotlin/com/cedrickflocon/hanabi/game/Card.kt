@@ -7,6 +7,6 @@ data class Card(val value: Int, val color: Color, val index: Int) {
     }
 
     override fun toString(): String {
-        return "$value $color"
+        return "$value $color $index"
     }
 }
