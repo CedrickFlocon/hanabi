@@ -9,6 +9,7 @@ repositories {
 dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.kotest)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
 }

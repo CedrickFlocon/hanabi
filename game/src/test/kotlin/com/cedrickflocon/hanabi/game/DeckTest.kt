@@ -22,6 +22,7 @@ class DeckTest {
             assertThat(deck.cardNumber).isEqualTo(50)
             with(deck.allCard()) {
                 assertThat(this).hasSize(50)
+                assertThat(this).isEqualTo(this.sortedBy { it.index })
                 Color.entries
                     .map { color -> this.filter { it.color == color } }
                     .forEach { allByColor ->
