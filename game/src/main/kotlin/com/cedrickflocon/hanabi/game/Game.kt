@@ -34,7 +34,7 @@ class Game(
     var life: Int = 3
         private set
 
-    var hintNumber: Int = HINT_MAX
+    var hint: Int = HINT_MAX
         private set
 
     private val _hintList = mutableListOf<Pair<Action.Hint, Int>>()
@@ -46,10 +46,6 @@ class Game(
     }
     val playerCard: Map<Int, List<Card>>
         get() = _playerCard
-
-    init {
-        println(this)
-    }
 
     fun play(action: Action): Int? {
         if (lastTurn == 0) {
@@ -70,14 +66,13 @@ class Game(
         }
 
         turn++
-        println(this)
         return null
     }
 
     private fun discardAction(action: Action.Discard) {
         discard(action.card)
-        if (hintNumber < HINT_MAX) {
-            hintNumber++
+        if (hint < HINT_MAX) {
+            hint++
         }
     }
 
@@ -86,6 +81,9 @@ class Game(
         if (lastValue + 1 == action.card.value) {
             _board[action.card.color]!!.add(retrieve(action.card))
             pickCard()
+            if (action.card.value == 5) {
+                hint++
+            }
         } else {
             discard(action.card)
             life--
@@ -93,7 +91,7 @@ class Game(
     }
 
     private fun hintAction(action: Action.Hint) {
-        if (hintNumber == 0) {
+        if (hint == 0) {
             throw IllegalArgumentException("No more hint")
         }
 
@@ -112,7 +110,7 @@ class Game(
             throw IllegalArgumentException("Not exhaustive hint ${action.indexes}")
         }
 
-        hintNumber--
+        hint--
         _hintList.add(action to turn)
     }
 
@@ -137,7 +135,7 @@ class Game(
     override fun toString(): String {
         return """
             |Score : $score | Turn : $turn | Player : $playerTurn  
-            |Life : $life | Hint: $hintNumber
+            |Life : $life | Hint: $hint
             |${playerCard.map { "Player ${it.key} : ${it.value}" }.joinToString("\n")}
             |${board.map { "${it.key} : ${it.value}" }.joinToString("\n")}
             |Discard : ${discard.joinToString()}

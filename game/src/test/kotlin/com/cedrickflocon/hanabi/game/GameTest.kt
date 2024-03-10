@@ -34,7 +34,7 @@ class GameTest : DescribeSpec({
                 assertThat(game.playerTurn).isEqualTo(0)
                 assertThat(game.score).isEqualTo(0)
                 assertThat(game.life).isEqualTo(3)
-                assertThat(game.hintNumber).isEqualTo(8)
+                assertThat(game.hint).isEqualTo(8)
 
                 assertThat(game.playerCard).containsExactlyEntriesIn(cards.chunked(cardNumber).take(playerNumber)
                     .withIndex().associate { it.index to it.value.toMutableList() })
@@ -65,7 +65,7 @@ class GameTest : DescribeSpec({
                         assertThat(game.playerTurn).isEqualTo(1)
                         assertThat(game.score).isEqualTo(0)
                         assertThat(game.life).isEqualTo(3)
-                        assertThat(game.hintNumber).isEqualTo(8)
+                        assertThat(game.hint).isEqualTo(8)
 
                         assertThat(game.playerCard[0]).doesNotContain(cards[2])
                         assertThat(game.playerCard[0]).contains(cards[playerNumber * cardNumber])
@@ -90,13 +90,13 @@ class GameTest : DescribeSpec({
                     game.play(Action.HintColor(1, mockk(), emptyList()))
 
                     it("should have less hint") {
-                        assertThat(game.hintNumber).isEqualTo(7)
+                        assertThat(game.hint).isEqualTo(7)
                     }
 
                     describe("discard") {
                         game.play(Action.Discard(game.playerCard[game.playerTurn]!!.first()))
                         it("should have more hint") {
-                            assertThat(game.hintNumber).isEqualTo(8)
+                            assertThat(game.hint).isEqualTo(8)
                         }
                     }
                 }
@@ -115,7 +115,7 @@ class GameTest : DescribeSpec({
                         assertThat(game.playerTurn).isEqualTo(1)
                         assertThat(game.score).isEqualTo(0)
                         assertThat(game.life).isEqualTo(2)
-                        assertThat(game.hintNumber).isEqualTo(8)
+                        assertThat(game.hint).isEqualTo(8)
 
                         assertThat(game.playerCard[0]).doesNotContain(cards[2])
                         assertThat(game.playerCard[0]).contains(cards[playerNumber * cardNumber])
@@ -130,14 +130,14 @@ class GameTest : DescribeSpec({
                     }
                 }
 
-                describe("cant regain hint") {
+                describe("hint") {
                     game.playerCard[1]!!.forEachIndexed { index, card ->
                         every { card.color } returns mockk()
                     }
                     game.play(Action.HintColor(1, mockk(), emptyList()))
 
                     it("should have less hint") {
-                        assertThat(game.hintNumber).isEqualTo(7)
+                        assertThat(game.hint).isEqualTo(7)
                     }
 
                     describe("invalid card") {
@@ -148,7 +148,20 @@ class GameTest : DescribeSpec({
                         }
 
                         it("should only discard the card") {
-                            assertThat(game.hintNumber).isEqualTo(7)
+                            assertThat(game.hint).isEqualTo(7)
+                        }
+                    }
+
+                    describe("finish a color") {
+                        val color = Color.entries.random()
+                        repeat(5) {
+                            every { game.playerCard[game.playerTurn]!![0].color } returns color
+                            every { game.playerCard[game.playerTurn]!![0].value } returns it+1
+                            game.play(Action.Play(game.playerCard[game.playerTurn]!![0]))
+                        }
+
+                        it("should have more hint") {
+                            assertThat(game.hint).isEqualTo(8)
                         }
                     }
                 }
@@ -165,7 +178,7 @@ class GameTest : DescribeSpec({
                         assertThat(game.playerTurn).isEqualTo(1)
                         assertThat(game.score).isEqualTo(1)
                         assertThat(game.life).isEqualTo(3)
-                        assertThat(game.hintNumber).isEqualTo(8)
+                        assertThat(game.hint).isEqualTo(8)
 
                         assertThat(game.playerCard[0]).doesNotContain(cards[2])
                         assertThat(game.playerCard[0]).contains(cards[playerNumber * cardNumber])
@@ -249,7 +262,7 @@ class GameTest : DescribeSpec({
                                 assertThat(game.playerTurn).isEqualTo(1)
                                 assertThat(game.score).isEqualTo(0)
                                 assertThat(game.life).isEqualTo(3)
-                                assertThat(game.hintNumber).isEqualTo(7)
+                                assertThat(game.hint).isEqualTo(7)
 
                                 assertThat(game.playerCard).containsExactlyEntriesIn(cards.chunked(cardNumber)
                                     .take(playerNumber).withIndex().associate { it.index to it.value.toMutableList() })
@@ -281,7 +294,7 @@ class GameTest : DescribeSpec({
                                 assertThat(game.playerTurn).isEqualTo(1)
                                 assertThat(game.score).isEqualTo(0)
                                 assertThat(game.life).isEqualTo(3)
-                                assertThat(game.hintNumber).isEqualTo(7)
+                                assertThat(game.hint).isEqualTo(7)
 
                                 assertThat(game.playerCard).containsExactlyEntriesIn(cards.chunked(cardNumber)
                                     .take(playerNumber).withIndex().associate { it.index to it.value.toMutableList() })
@@ -341,7 +354,7 @@ class GameTest : DescribeSpec({
                                 assertThat(game.playerTurn).isEqualTo(1)
                                 assertThat(game.score).isEqualTo(0)
                                 assertThat(game.life).isEqualTo(3)
-                                assertThat(game.hintNumber).isEqualTo(7)
+                                assertThat(game.hint).isEqualTo(7)
 
                                 assertThat(game.playerCard).containsExactlyEntriesIn(cards.chunked(cardNumber)
                                     .take(playerNumber).withIndex().associate { it.index to it.value.toMutableList() })
@@ -371,7 +384,7 @@ class GameTest : DescribeSpec({
                                 assertThat(game.playerTurn).isEqualTo(1)
                                 assertThat(game.score).isEqualTo(0)
                                 assertThat(game.life).isEqualTo(3)
-                                assertThat(game.hintNumber).isEqualTo(7)
+                                assertThat(game.hint).isEqualTo(7)
 
                                 assertThat(game.playerCard).containsExactlyEntriesIn(cards.chunked(cardNumber)
                                     .take(playerNumber).withIndex().associate { it.index to it.value.toMutableList() })
@@ -406,7 +419,7 @@ class GameTest : DescribeSpec({
                     assertThat(game.turn).isEqualTo(playerNumber)
                     assertThat(game.score).isEqualTo(1)
                     assertThat(game.life).isEqualTo(3)
-                    assertThat(game.hintNumber).isEqualTo(8)
+                    assertThat(game.hint).isEqualTo(8)
 
                     assertThat(game.playerCard[game.playerTurn]!!).hasSize(cardNumber - 2)
                     game.playerCard.filter { it.key != game.playerTurn }.forEach {
