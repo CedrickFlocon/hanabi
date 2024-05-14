@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.23"
+kotlin = "1.9.24"
 junit = "5.10.2"
 mockk = "1.13.10"
 truth = "1.4.2"
