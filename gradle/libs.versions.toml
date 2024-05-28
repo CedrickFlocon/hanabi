@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.24"
 junit = "5.10.2"
-mockk = "1.13.10"
+mockk = "1.13.11"
 truth = "1.4.2"
 kotest = "5.9.0"
 
