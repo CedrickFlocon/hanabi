@@ -3,7 +3,7 @@ kotlin = "2.0.0"
 junit = "5.10.2"
 mockk = "1.13.11"
 truth = "1.4.2"
-kotest = "5.9.0"
+kotest = "5.9.1"
 
 [libraries]
 junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit" }
