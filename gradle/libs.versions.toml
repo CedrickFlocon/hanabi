@@ -2,7 +2,7 @@
 kotlin = "2.0.0"
 junit = "5.10.3"
 mockk = "1.13.11"
-truth = "1.4.2"
+truth = "1.4.3"
 kotest = "5.9.1"
 
 [libraries]
