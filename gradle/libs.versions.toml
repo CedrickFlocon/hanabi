@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.0.10"
-junit = "5.10.3"
+junit = "5.11.0"
 mockk = "1.13.12"
 truth = "1.4.4"
 kotest = "5.9.1"
